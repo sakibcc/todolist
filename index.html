@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>todolist</title>
+	<link rel="stylesheet" href="css/custom.css">
+	<link rel="stylesheet" href="css/modal.css">
+	<script type="text/javascript" src="lib/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+	<div class="top">ToDoList</div>
+	<div class="container">
+		<div class="inputarea">
+			<form class="todo-add">
+				<input type="text" placeholder="eg:我要吃饭"><button type="submit" id="button">submit</button>
+			</form>
+			<div class="todo-list"></div>
+		</div>
+		<div class="detail-body" active='null'>
+			<div class="detail-title"></div>
+			<textarea class="descript" name="description" ></textarea>
+			<div class="btn">
+				<button class="update">更新</button>
+				<button class="close">关闭</button>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/data.js"></script>
+	<script type="text/javascript" src="js/todolist.js"></script>
+	<script type="text/javascript" src="js/alertbox.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
