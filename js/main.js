@@ -1,5 +1,4 @@
 $(function () {
-
 	//读取localstorage数据
 	var _litsData = loadData();
 	//创建data实例，用于操作localstorage数据和todolist数据
@@ -19,7 +18,7 @@ $(function () {
 		_checkbox;
 
 	//插件todolist操作实例
-	var todolist = new ToDoList({
+	var todolist = new TodoList({
 			detailBody : _detailBody,
 			detailTitle : _detailTitle,
 			detailContent : _detailContent,
@@ -53,7 +52,8 @@ $(function () {
 		//详情区域删除按钮绑定事件
 		_closeBtn.addEventListener('click',function (event) {
 			this.parentNode.parentNode.style.display = 'none';
-		})
+		});
+		$.myAlertconfig();
 	}
 
 

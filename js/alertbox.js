@@ -1,30 +1,66 @@
 //自定义弹出框
 ;(function ($) {
+	//自定义模板引擎
+	function templeteChange(temId,type,content) {
+		var html_tpl = '',
+			html_index = 0,
+			//去除HTML标签之间的空白、换行
+			rxp_trim = /[\s]+(?=\<)/ig,
+			//匹配<% %>中间不包含%>的字符串
+			rxp_tpl = /<%([^%>]+)?%>/g,
+
+			tpl = document.getElementById(temId).innerHTML.replace(rxp_trim,'');
+			while(true) {
+				var match = rxp_tpl.exec(tpl);
+				if(!match) break;
+				if(html_index == match.index) {
+					html_tpl += content+tpl.slice(html_index+match[0].length);
+				}else {
+					html_tpl += tpl.slice(html_index,match.index)+type;
+				}
+				html_index = match.index + match[0].length;
+				}
+		return html_tpl;
+	}
+
 	$.extend({
-		myAlert : function (title) {
-			var alert_template = '<div class="alert-container">'+
-									'<div class="alert-bg"></div>'+
-									'<div class="alert-wrap">'+
-									'<div class="alert-content">确认删除"'+title+'"吗?</div>'+
-									'<div class="alertbtn"><button class="alertsure">确认</button><button class="alertclose">关闭</button></div></div></div>';
+		//配置自定义弹框的各个类名
+		//container : 弹出框整体
+		//alertsure : 确认按钮
+		//alertclose : 关闭按钮 
+		//background : 蒙版/背景
+		myAlertconfig : function (config) {
+			 this._def = $.extend({
+				container : 'alert-container',
+				alertsure : 'alertsure',
+				alertclose : 'alertclose',
+				background : 'alert-bg'
+			},config);
+
+		},
+
+		myAlert : function (temId,type,content) {
+			var alert_template = templeteChange(temId,type,content);
 			$('body').append(alert_template);
 			return this;
 		},
 
 		removeAlert : function () {
-			$('.alert-container').remove();
+			var _this = this;
+			$('.'+ _this._def.container).remove();
 		},
 
 		comfirmAlert : function () {
 			var confirmed,
+				_this = this,
 				dfd = $.Deferred();
-			$('.alertsure').click(function(event) {
+			$('.'+ _this._def.alertsure).click(function(event) {
 				confirmed = true;
 			});
-			$('.alertclose').click(function(event) {
+			$('.'+ _this._def.alertclose).click(function(event) {
 				confirmed = false;
 			});
-			$('.alert-bg').click(function(event) {
+			$('.'+ _this._def.background).click(function(event) {
 				confirmed = false;
 			});
 			var timer = setInterval(function () {

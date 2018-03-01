@@ -1,9 +1,8 @@
 //负责界面的DOM操作模块
-//在全局中直接使用todolist调用
+//在全局中使用new ToDolist()构造实例
 ;(function () {
 	"use strict"
 	var _global;
-
 	//对象合并
 	function _extend(obj,opt,cover) {
 		for(var key in opt) {
@@ -71,8 +70,8 @@
 					var _parent = this.parentNode.parentNode,
 						//通过data-index属性的值获取对应的datalist对象索引
 						_index = _parent.getAttribute('data-index');
-					//添加自定义弹出框
-					$.myAlert(data.datalist[_index].content).comfirmAlert().then(function (result) {
+					//添加自定义“确认删除”弹出框
+					$.myAlert("myAlert1","确认删除",data.datalist[_index].content).comfirmAlert().then(function (result) {
 						if(result){
 							data.delItem(_index);
 							_parent.remove();
@@ -80,7 +79,7 @@
 						}else {
 							$.removeAlert();
 						}
-					})
+					});
 					
 				},false)
 			}
@@ -151,12 +150,19 @@
 				data = _this.def.datas;
 			_this.def.updateBtn.addEventListener('click',function (event) {
 				var _index = this.parentNode.parentNode.getAttribute('active');
-				data.update(_index,'detail',_this.def.detailContent.value).update(_index,'content',_this.def.detailTitle.innerHTML);
+				//添加自定义“确认更新”弹出框
+				$.myAlert("myAlert1","确认更新",data.datalist[_index].content).comfirmAlert().then(function (result) {
+						if(result){
+							data.update(_index,'detail',_this.def.detailContent.value).update(_index,'content',_this.def.detailTitle.innerHTML);
+							$.removeAlert();
+						}else {
+							$.removeAlert();
+						}
+					});
 			},false)
-		},
+		}
 	}
-
-	_global = (function () {return this || (0,eval)('this');}());
-	! ('todolist' in _global) && (_global.ToDoList = HtmlModify);
-
+	 
+	 _global = (function () {return this || (0,eval)('this');}());
+	 ! ('TodoList' in _global) && (_global.TodoList = HtmlModify);
 }())
