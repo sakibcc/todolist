@@ -53,6 +53,7 @@ $(function () {
 		_closeBtn.addEventListener('click',function (event) {
 			this.parentNode.parentNode.style.display = 'none';
 		});
+		//配置自定义弹框的各个类名
 		$.myAlertconfig();
 	}
 

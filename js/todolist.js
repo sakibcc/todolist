@@ -148,6 +148,18 @@
 		setDetail : function () {
 			var _this = this,
 				data = _this.def.datas;
+			//添加顶部出现“更新完毕”的提示条
+			var	$okcommit = $("<div>更新完毕</div>").css({
+				position: 'absolute',
+				top : '0',
+				backgroundColor: '#3C3',
+				width : '100%',
+				height : '0px',
+				lineHeight : '30px',
+				textAlign : 'center',
+				fontSize : '16px',
+				color : 'white'
+			});
 			_this.def.updateBtn.addEventListener('click',function (event) {
 				var _index = this.parentNode.parentNode.getAttribute('active');
 				//添加自定义“确认更新”弹出框
@@ -155,6 +167,12 @@
 						if(result){
 							data.update(_index,'detail',_this.def.detailContent.value).update(_index,'content',_this.def.detailTitle.innerHTML);
 							$.removeAlert();
+							$('body').append($okcommit);
+							$okcommit.animate({height : '30px'}, 500)
+									 .animate({height : '30px'},1000)
+									 .animate({height : '0'}, 500, function () {
+									 	$(this).remove();
+									 });
 						}else {
 							$.removeAlert();
 						}
