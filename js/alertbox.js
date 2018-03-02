@@ -45,10 +45,7 @@
 			$('body').append(alert_template);
 			return this;
 		},
-		//myModal : function (modaltype,obj) {
-		//	
-		//	return modals[modaltype](obj);
-		//}
+		
 		removeAlert : function () {
 			var _this = this;
 			$('.'+ _this._def.container).remove();
