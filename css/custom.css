@@ -103,7 +103,7 @@ body {
 
 }
 
-.todo-list .todo-item .btn {
+.todo-list .todo-item .checks {
 	margin-left: 10px;
 	vertical-align: middle;
 }
@@ -130,7 +130,7 @@ body {
 	color: #000;
 }
 
-/*选中状态*/
+/*完成选中状态*/
 .todo-list .done {
 	background-color: #acb;
 	color: #998;
@@ -147,6 +147,10 @@ body {
 	width: 98%;
 	height: 1px;
 	background-color: #999;
+}
+.todo-list .done .fr .delete-btn:hover,
+.todo-list .done .fr .detail-btn:hover {
+	color: #AAA;
 }
 
 

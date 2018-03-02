@@ -30,6 +30,18 @@
 		 		datas : null
 		 	}
 		 	this.def = _extend(def,config,true);
+		 	//添加顶部出现“更新完毕”的提示条
+		 	this.$okcommit = $("<div>更新完毕</div>").css({
+				position: 'absolute',
+				top : '0',
+				backgroundColor: '#3C3',
+				width : '100%',
+				height : '0px',
+				lineHeight : '30px',
+				textAlign : 'center',
+				fontSize : '16px',
+				color : 'white'
+			});
 		 },
 
 		//添加到HTML
@@ -44,12 +56,12 @@
 			for(var i = 0 ,lens = data.datalist.length; i < lens ; i++) {
 				if(data.datalist[i] !== null && data.datalist[i].completed !== true) {
 					template += '<div class="todo-item" data-index='+i+'>'+
-						   '<span class="btn"><input type="checkbox"></span>'+
+						   '<span class="checks"><input type="checkbox"></span>'+
 						   '<span class="todo-content">'+data.datalist[i].content+'</span>'+
 						   '<span class="fr"><span class="delete-btn">删除</span><span class="detail-btn">详情</span></span></div>'; 
 				} else if (data.datalist[i] !== null && data.datalist[i].completed === true) {
 					template_done += '<div class="todo-item done" data-index='+i+'>'+
-						   '<span class="btn"><input type="checkbox" checked="true"></span>'+
+						   '<span class="checks"><input type="checkbox" checked="true"></span>'+
 						   '<span class="todo-content">'+data.datalist[i].content+'</span>'+
 						   '<span class="fr"><span class="delete-btn">删除</span><span class="detail-btn">详情</span></span></div>'; 
 				}
@@ -71,7 +83,8 @@
 						//通过data-index属性的值获取对应的datalist对象索引
 						_index = _parent.getAttribute('data-index');
 					//添加自定义“确认删除”弹出框
-					$.myAlert("myAlert1","确认删除",data.datalist[_index].content).comfirmAlert().then(function (result) {
+					$.myAlert("myAlert1","确认删除",data.datalist[_index].content)
+					 .comfirmAlert(function (result) {
 						if(result){
 							data.delItem(_index);
 							_parent.remove();
@@ -79,13 +92,12 @@
 						}else {
 							$.removeAlert();
 						}
-					});
+					 });
 					
 				},false)
 			}
 			return this;
 		},
-
 
 		//是否完成（非删除）
 		hadDone : function (elems,data) {
@@ -148,27 +160,16 @@
 		setDetail : function () {
 			var _this = this,
 				data = _this.def.datas;
-			//添加顶部出现“更新完毕”的提示条
-			var	$okcommit = $("<div>更新完毕</div>").css({
-				position: 'absolute',
-				top : '0',
-				backgroundColor: '#3C3',
-				width : '100%',
-				height : '0px',
-				lineHeight : '30px',
-				textAlign : 'center',
-				fontSize : '16px',
-				color : 'white'
-			});
 			_this.def.updateBtn.addEventListener('click',function (event) {
 				var _index = this.parentNode.parentNode.getAttribute('active');
 				//添加自定义“确认更新”弹出框
-				$.myAlert("myAlert1","确认更新",data.datalist[_index].content).comfirmAlert().then(function (result) {
+				$.myAlert("myAlert1","确认更新",data.datalist[_index].content)
+				 .comfirmAlert(function (result) {
 						if(result){
 							data.update(_index,'detail',_this.def.detailContent.value).update(_index,'content',_this.def.detailTitle.innerHTML);
 							$.removeAlert();
-							$('body').append($okcommit);
-							$okcommit.animate({height : '30px'}, 500)
+							$('body').append(_this.$okcommit);
+							_this.$okcommit.animate({height : '30px'}, 500)
 									 .animate({height : '30px'},1000)
 									 .animate({height : '0'}, 500, function () {
 									 	$(this).remove();

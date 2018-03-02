@@ -26,6 +26,22 @@ $(function () {
 			datas : data
 		});
 
+	//初始化开始
+	init();
+	//绑定事件到提交按钮
+	formSubmit.addEventListener('click',function (e) {
+		var _newItem = new NewItem();
+		e.preventDefault();
+		//如果ipnut没内容，直接返回
+		if(!_input.value) return;
+		//将输入的内容复制到centent属性
+		_newItem.content = _input.value;
+		data.getItem(_newItem);
+		todolist.addToHtml(listBody).delFromHtml().getDetail();
+		//输入后清空输入框
+		_input.value = '';
+	},false);
+
 	//任务项目构造函数，配置3个属性
 	//content : todolist标题内容
 	//detail ： 详细内容
@@ -56,22 +72,4 @@ $(function () {
 		//配置自定义弹框的各个类名
 		$.myAlertconfig();
 	}
-
-
-	//初始化开始
-	init();
-	//绑定事件到提交按钮
-	formSubmit.addEventListener('click',function (e) {
-		var _newItem = new NewItem();
-		e.preventDefault();
-		//如果ipnut没内容，直接返回
-		if(!_input.value) return;
-		//将输入的内容复制到centent属性
-		_newItem.content = _input.value;
-		data.getItem(_newItem);
-		todolist.addToHtml(listBody).delFromHtml().getDetail();
-		//输入后清空输入框
-		_input.value = '';
-	},false);
-
 })

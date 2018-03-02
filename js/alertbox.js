@@ -1,7 +1,8 @@
 //自定义弹出框
+//利用template
 ;(function ($) {
 	//自定义模板引擎
-	function templeteChange(temId,type,content) {
+	function templateChange(temId,type,content) {
 		var html_tpl = '',
 			html_index = 0,
 			//去除HTML标签之间的空白、换行
@@ -14,7 +15,7 @@
 				var match = rxp_tpl.exec(tpl);
 				if(!match) break;
 				if(html_index == match.index) {
-					html_tpl += content+tpl.slice(html_index+match[0].length);
+					html_tpl += '“'+content+'”'+tpl.slice(html_index+match[0].length);
 				}else {
 					html_tpl += tpl.slice(html_index,match.index)+type;
 				}
@@ -40,17 +41,20 @@
 		},
 
 		myAlert : function (temId,type,content) {
-			var alert_template = templeteChange(temId,type,content);
+			var alert_template = templateChange(temId,type,content);
 			$('body').append(alert_template);
 			return this;
 		},
-
+		//myModal : function (modaltype,obj) {
+		//	
+		//	return modals[modaltype](obj);
+		//}
 		removeAlert : function () {
 			var _this = this;
 			$('.'+ _this._def.container).remove();
 		},
 
-		comfirmAlert : function () {
+		comfirmAlert : function (callback) {
 			var confirmed,
 				_this = this,
 				dfd = $.Deferred();
@@ -69,7 +73,8 @@
 					clearInterval(timer);
 				}
 			},100)
-			return dfd.promise();
+			//then传递一个参数给callback，参数值为resolve所传递的参数；
+			return dfd.promise().then(callback);
 		}
 	});
 }(jQuery))
